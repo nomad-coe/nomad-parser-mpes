@@ -12,7 +12,7 @@ source .pyenv/bin/activate
 
 Clone and install the nomad infrastructure and the necessary dependencies (including this parser)
 ```
-git clone https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-FAIR nomad
+git clone https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-FAIR --branch photoemission nomad
 git submodule update --init
 pip install -r requirements.txt
 ./dependencies.sh -e
