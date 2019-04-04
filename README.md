@@ -30,7 +30,7 @@ pip install -e .
 The parsers (among other things) are git submodules. The `./dependencies.sh` will run
 through all the sub modules and install them as pip packages (be in you virtual env!).
 
-Fork this project, e.g. [gitlab](https://gitlab.mpcdf.mpg.de/nomad-lab/parser-skeleton).
+Fork this project on [gitlab](https://gitlab.mpcdf.mpg.de/nomad-lab/parser-skeleton).
 Rename your fork in its settings/advanced and move it to the nomad-lab namespace.
 Choose a name that starts with `parser-`, e.g. `parser-your-parser-name`.
 You'll need a [http://www.mpcdf.mpg.de](https://www.mpcdf.mpg.de/userspace/forms/onlineregistrationform) account.
