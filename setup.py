@@ -16,10 +16,10 @@ from setuptools import setup, find_packages
 
 def main():
     setup(
-        name='photoemissionparser',
+        name='skeletonparser',  # replace with new name for parser's python package
         version='0.1',
-        description='NOMAD parser implementation for photoemission experiment files.',
-        author='',
+        description='A skeleton NOMAD parser implementation.',  # change accordingly
+        author='',  # add your names
         license='APACHE 2.0',
         packages=find_packages(),
         install_requires=[

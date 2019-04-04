@@ -1,4 +1,4 @@
-# Copyright 2016-2018 R. Patrick Xian
+# Copyright 2016-2018 Markus Scheidgen
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
 #   You may obtain a copy of the License at
@@ -14,13 +14,13 @@
 import sys
 
 from nomad.parsing import LocalBackend
-from photoemissionparser import PhotoemissionParserInterface
+from skeletonparser import SkeletonParserInterface
 
 if __name__ == "__main__":
     # instantiate the parser via its interface with a LocalBackend
-    parser = PhotoemissionParserInterface(backend=LocalBackend)
+    parser = SkeletonParserInterface(backend=LocalBackend)
     # call the actual parsing with the given mainfile
     parser.parse(sys.argv[1])
     # print the results stored in the LocalBackend
     parser.parser_context.super_backend.write_json(
-        sys.stdout, pretty=True, root_sections=['section_root'])
+        sys.stdout, pretty=True, root_sections=['section_experiment'])
