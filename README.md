@@ -22,6 +22,8 @@ Clone and install the nomad infrastructure and the necessary dependencies (inclu
 git clone https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-FAIR nomad
 cd nomad
 git submodule update --init
+pip install --upgrade pip
+pip install --upgrade setuptools
 pip install -r requirements.txt
 ./dependencies.sh -e
 pip install -e .
