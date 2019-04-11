@@ -22,6 +22,9 @@ def main():
         author='',  # add your names
         license='APACHE 2.0',
         packages=find_packages(),
+        package_data={
+            'skeletonparser': ['*.json']
+        },
         install_requires=[
             'nomadcore'
         ],
