@@ -73,6 +73,13 @@ class SkeletonParser(AbstractBaseParser):
         backend.addValue('experiment_time', int(datetime.strptime(data.get('date'), '%d.%M.%Y').timestamp()))
 
         # Subsections work like before. The parent section must still be open.
+        data_gid = backend.openSection('section_data')
+        backend.addValue('data_repository_name', 'zenedo.org')
+        backend.addValue('data_repository_url', 'https://zenedo.org/path/to/mydata')
+        backend.addValue('data_preview_url', 'https://www.physicsforums.com/insights/wp-content/uploads/2015/09/fem.jpg')
+        backend.closeSection('section_data', data_gid)
+
+        # Subsections work like before. The parent section must still be open.
         sample_gid = backend.openSection('section_sample')
         backend.addValue('sample_chemical_name', data.get('sample_chemical'))
         backend.addValue('sample_chemical_formula', data.get('sample_formula'))

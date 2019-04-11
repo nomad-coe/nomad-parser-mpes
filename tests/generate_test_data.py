@@ -33,8 +33,8 @@ if __name__ == '__main__':
 
     now = int(time.time())
 
-    for i in range(0, count + 1):
-        with zipfile.ZipFile(zipfile_name, 'w') as zf:
+    with zipfile.ZipFile(zipfile_name, 'w') as zf:
+        for i in range(0, count + 1):
             formula = []
             for _ in range(0, random.choice(low_numbers_for_atoms)):
                 formula.append('%s%d' % (random.choice(atoms), random.choice(low_numbers_for_atoms)))
