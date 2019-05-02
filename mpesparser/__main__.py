@@ -14,11 +14,11 @@
 import sys
 
 from nomad.parsing import LocalBackend
-from skeletonparser import SkeletonParserInterface
+from mpesparser import MPESParserInterface
 
 if __name__ == "__main__":
     # instantiate the parser via its interface with a LocalBackend
-    parser = SkeletonParserInterface(backend=LocalBackend)
+    parser = MPESParserInterface(backend=LocalBackend)
     # call the actual parsing with the given mainfile
     parser.parse(sys.argv[1])
     # print the results stored in the LocalBackend

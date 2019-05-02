@@ -16,14 +16,14 @@ from setuptools import setup, find_packages
 
 def main():
     setup(
-        name='skeletonparser',  # replace with new name for parser's python package
+        name='mpesparser',
         version='0.1',
-        description='A skeleton NOMAD parser implementation.',  # change accordingly
-        author='',  # add your names
+        description='NOMAD parser implementation for multidimensional photoemission spectroscopy data.',
+        author='R. Patrick Xian',
         license='APACHE 2.0',
         packages=find_packages(),
         package_data={
-            'skeletonparser': ['*.json']
+            'mpesparser': ['*.json']
         },
         install_requires=[
             'nomadcore'
