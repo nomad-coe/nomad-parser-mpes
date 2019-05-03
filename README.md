@@ -15,5 +15,5 @@ The set of important files for the parser are explained in the following,
 To run the parser:
 ```
 cd nomad/dependencies/parsers/parser-mpes
-python -m parser-mpes tests/mpes.metadata.json
+python -m parser-mpes tests/mpes.metadata_redacted.json
 ```
