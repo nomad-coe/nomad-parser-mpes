@@ -11,7 +11,7 @@
   ],
   "metaInfos": [
     {
-      "description": "Name of the city and country the experiment took place, format 'Country, City'",
+      "description": "Name of the data repository",
       "name": "data_repository_name",
       "dtypeStr": "C",
       "shape": [],
@@ -19,7 +19,7 @@
       "units": ""
     },
     {
-      "description": "Name of the city and country the experiment took place, format 'Country, City'",
+      "description": "The URL of the data repository",
       "name": "data_repository_url",
       "dtypeStr": "C",
       "shape": [],
@@ -27,7 +27,7 @@
       "units": ""
     },
     {
-      "description": "Name of the city and country the experiment took place, format 'Country, City'",
+      "description": "The URL of the data preview thumbnail picture",
       "name": "data_preview_url",
       "dtypeStr": "C",
       "shape": [],
@@ -51,7 +51,7 @@
       "units": ""
     },
     {
-      "description": "Abbreviated name (e.g. acronym) of the experimental method",
+      "description": "Abbreviated name (i.e. acronym) of the experimental method",
       "name": "general_experiment_method_abbreviation",
       "dtypeStr": "C",
       "shape": [],
@@ -75,7 +75,7 @@
       "units": ""
     },
     {
-      "description": "Start and end dates of the experiment, format 'DD.MM.YYYY - DD.MM.YYYY'",
+      "description": "Start and end dates of the experiment separated by a spacebar, format 'DD.MM.YYYY DD.MM.YYYY'",
       "name": "general_experiment_date",
       "dtypeStr": "C",
       "shape": [],
@@ -83,7 +83,7 @@
       "units": "C"
     },
     {
-      "description": "Descriptive summary of the content of the experiment.",
+      "description": "A descriptive summary of the content of the experiment.",
       "name": "general_experiment_summary",
       "dtypeStr": "C",
       "shape": [],
@@ -91,7 +91,7 @@
       "units": ""
     },
     {
-      "description": "Name of the institution hosting the experimental facility (e.g. in an acronym).",
+      "description": "Name of the institution hosting the experimental facility (e.g. in full or an acronym).",
       "name": "general_experiment_facility_institution",
       "dtypeStr": "C",
       "shape": [],
@@ -99,7 +99,7 @@
       "units": ""
     },
     {
-      "description": "Name of the experimental facility (e.g. in an acronym).",
+      "description": "Name of the experimental facility (e.g. in full or an acronym).",
       "name": "general_experiment_facility_name",
       "dtypeStr": "C",
       "shape": [],
@@ -131,7 +131,7 @@
       "units": ""
     },
     {
-      "description": "Name or model of the equipment (e.g. in an acronym).",
+      "description": "Name or model of the equipment (e.g. in full or an acronym).",
       "name": "general_equipment_description",
       "dtypeStr": "C",
       "shape": [],
@@ -211,7 +211,7 @@
       "units": "eV"
     },
     {
-      "description": "Full-width at half-maximum size of the pump source at or closest to the sample position.",
+      "description": "Full-width at half-maximum (FWHM) of the pump source size at or closest to the sample position.",
       "name": "source_pump_size",
       "dtypeStr": "f",
       "shape": ["none_shape"],
@@ -291,7 +291,7 @@
       "units": "eV"
     },
     {
-      "description": "Full-width at half-maximum size of the probe source at or closest to the sample position.",
+      "description": "Full-width at half-maximum (FWHM) of the probe source size at or closest to the sample position.",
       "name": "source_probe_size",
       "dtypeStr": "f",
       "shape": ["none_shape"],
@@ -323,7 +323,7 @@
       "units": ""
     },
     {
-      "description": "Full-width at half-maximum of the pump-probe cross-correlation function.",
+      "description": "Full-width at half-maximum (FWHM) of the pump-probe cross-correlation function.",
       "name": "source_temporal_resolution",
       "dtypeStr": "f",
       "shape": [],
@@ -507,7 +507,7 @@
       "units": "eV"
     },
     {
-      "description": "Translation stage delay to pump-probe delay calibration.",
+      "description": "Translation stage position to pump-probe delay calibration.",
       "name": "detector_calibration_stage_to_delay",
       "dtypeStr": "f",
       "shape": ["number_of_delay_calibration_coefficients"],

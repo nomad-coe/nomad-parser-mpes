@@ -39,7 +39,7 @@
   "tof_distance": 0.9,
   "tof_voltages": [20],
   "sample_bias": 29,
-  "magnification": [-1.5],
+  "magnification": -1.5,
   "detector_voltages": [],
   "detector_type": "MCP",
   "sensor_size": [],
