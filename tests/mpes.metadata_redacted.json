@@ -1,4 +1,6 @@
 {
+  "data_repository_name": "zenodo.org",
+  "data_repository_url": "https://zenodo.org/deposit/2704788",
   "experiment_method": "multidimensional photoemission spectroscopy",
   "experiment_method_abbrv": "MPES",
   "experiment_location": "Hamburg, Germany",

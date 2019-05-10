@@ -59,10 +59,7 @@ class MPESParser(AbstractBaseParser):
         with open(filepath, 'rt') as f:
             data = json.load(f)
             # print(data)
-
-        # # You need to open sections before you can add values or sub sections to it.
-        # # The returned 'gid' can be used to reference a specific section if multiple
-        # # sections of the same type are opened.
+        
         root_gid = backend.openSection('section_experiment')
         # # Values do not necessarely have to be read from the parsed file.
         # # The backend will check the type of the given value agains the metadata definition.
@@ -70,8 +67,8 @@ class MPESParser(AbstractBaseParser):
         #
         # # Read data .
         # data_gid = backend.openSection('section_data')
-        # backend.addValue('data_repository_name', 'zenodo.org')
-        # backend.addValue('data_repository_url', 'https://zenodo.org/path/to/mydata')
+        backend.addValue('data_repository_name', data.get('data_repository_name'))
+        backend.addValue('data_repository_url', data.get('data_repository_url'))
         # backend.addValue('data_preview_url', 'https://www.physicsforums.com/insights/wp-content/uploads/2015/09/fem.jpg')
         # backend.closeSection('section_data', data_gid)
 
@@ -161,11 +158,6 @@ class MPESParser(AbstractBaseParser):
         backend.addValue('sample_substrate_material', data.get('substrate_material'))
         backend.addValue('sample_substrate_state_of_matter', data.get('substrate_state'))
         backend.addValue('sample_substrate_vendor', data.get('substrate_vendor'))
-
-        # To add arrays (vectors, matrices, etc.) use addArrayValues and provide a
-        # numpy array. The shape of the numpy array must match the shape defined in
-        # the respective metadata definition.
-
 
         # Close sections in the reverse order
         # backend.closeSection('section_data', data_gid)
