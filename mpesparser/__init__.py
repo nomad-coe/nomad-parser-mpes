@@ -66,8 +66,14 @@ class MPESParser(AbstractBaseParser):
         # Read general experimental parameters
         backend.addValue('experiment_location', ', '.join(reversed(re.findall(r"[\w']+", data.get('experiment_location')))))
         start, end = data.get('experiment_date').split(' ')
-        backend.addValue('experiment_time', int(datetime.strptime(start, '%m.%Y').timestamp()))
-        backend.addValue('experiment_end_time', int(datetime.strptime(end, '%m.%Y').timestamp()))
+        try:
+            backend.addValue('experiment_time', int(datetime.strptime(start, '%m.%Y').timestamp()))
+        except ValueError:
+            pass
+        try:
+            backend.addValue('experiment_end_time', int(datetime.strptime(end, '%m.%Y').timestamp()))
+        except ValueError:
+            pass
         backend.addValue('experiment_summary', data.get('experiment_summary'))
         backend.addValue('experiment_facility_institution', data.get('facility_institution'))
         backend.addValue('experiment_facility_name', data.get('facility_name'))
