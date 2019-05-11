@@ -11,52 +11,12 @@
   ],
   "metaInfos": [
     {
-      "description": "Name of the data repository",
-      "name": "data_repository_name",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
-      "description": "The URL of the data repository",
-      "name": "data_repository_url",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
-      "description": "The URL of the data preview thumbnail picture",
-      "name": "data_preview_url",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
       "description": "Shape of the None/Null object",
       "name": "none_shape",
       "dtypeStr": "i",
       "kindStr": "type_dimension",
       "shape": [],
       "superNames": ["section_experiment"]
-    },
-    {
-      "description": "Full name of the experimental method in use",
-      "name": "general_experiment_method",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
-      "description": "Abbreviated name (i.e. acronym) of the experimental method",
-      "name": "general_experiment_method_abbreviation",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
     },
     {
       "description": "Number of name segments in the experiment location",
@@ -67,51 +27,11 @@
       "superNames": ["section_experiment"]
     },
     {
-      "description": "Name of the city and country the experiment took place, format 'Country, City'",
-      "name": "general_experiment_location",
-      "dtypeStr": "C",
-      "shape": ["number_of_location_names"],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
-      "description": "Start and end dates of the experiment separated by a spacebar, format 'DD.MM.YYYY DD.MM.YYYY'",
-      "name": "general_experiment_date",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": "C"
-    },
-    {
-      "description": "A descriptive summary of the content of the experiment.",
-      "name": "general_experiment_summary",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
-      "description": "Name of the institution hosting the experimental facility (e.g. in full or an acronym).",
-      "name": "general_experiment_facility_institution",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
-      "description": "Name of the experimental facility (e.g. in full or an acronym).",
-      "name": "general_experiment_facility_name",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
       "description": "Name of the beamline the experiment took place.",
       "name": "general_beamline",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -119,7 +39,7 @@
       "name": "general_source_pump",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -127,23 +47,7 @@
       "name": "general_source_probe",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
-      "description": "Name or model of the equipment (e.g. in full or an acronym).",
-      "name": "general_equipment_description",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
-      "description": "Description of the sample used in the experiment.",
-      "name": "general_sample_description",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -152,14 +56,14 @@
       "dtypeStr": "i",
       "kindStr": "type_dimension",
       "shape": [],
-      "superNames": ["section_experiment"]
+      "superNames": ["section_method"]
     },
     {
       "description": "Names of the axes in the measurement hardware.",
       "name": "general_measurement_axis",
       "dtypeStr": "C",
       "shape": ["number_of_axes"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -167,7 +71,7 @@
       "name": "general_physical_axis",
       "dtypeStr": "C",
       "shape": ["number_of_axes"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -175,7 +79,7 @@
       "name": "source_pump_repetition_rate",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "Hz"
     },
     {
@@ -183,7 +87,7 @@
       "name": "source_pump_pulse_duration",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "fs"
     },
     {
@@ -191,7 +95,7 @@
       "name": "source_pump_wavelength",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "nm"
     },
     {
@@ -199,7 +103,7 @@
       "name": "source_pump_spectrum",
       "dtypeStr": "f",
       "shape": ["length_of_spectrum"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -207,7 +111,7 @@
       "name": "source_pump_photon_energy",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "eV"
     },
     {
@@ -215,7 +119,7 @@
       "name": "source_pump_size",
       "dtypeStr": "f",
       "shape": ["none_shape"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "mm**2"
     },
     {
@@ -223,7 +127,7 @@
       "name": "source_pump_fluence",
       "dtypeStr": "f",
       "shape": ["none_shape"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "mJ/mm**2"
     },
     {
@@ -231,7 +135,7 @@
       "name": "source_pump_polarization",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -239,7 +143,7 @@
       "name": "source_pump_bunch",
       "dtypeStr": "i",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -247,7 +151,7 @@
       "name": "source_probe_repetition_rate",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "Hz"
     },
     {
@@ -255,7 +159,7 @@
       "name": "source_probe_pulse_duration",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "fs"
     },
     {
@@ -263,7 +167,7 @@
       "name": "source_probe_wavelength",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "nm"
     },
     {
@@ -272,14 +176,14 @@
       "dtypeStr": "i",
       "kindStr": "type_dimension",
       "shape": [],
-      "superNames": ["section_experiment"]
+      "superNames": ["section_method"]
     },
     {
       "description": "Spectrum of the probe source.",
       "name": "source_probe_spectrum",
       "dtypeStr": "f",
       "shape": ["length_of_spectrum"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -287,7 +191,7 @@
       "name": "source_probe_photon_energy",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "eV"
     },
     {
@@ -295,7 +199,7 @@
       "name": "source_probe_size",
       "dtypeStr": "f",
       "shape": ["none_shape"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "mm**2"
     },
     {
@@ -303,7 +207,7 @@
       "name": "source_probe_fluence",
       "dtypeStr": "f",
       "shape": ["none_shape"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "mJ/mm**2"
     },
     {
@@ -311,7 +215,7 @@
       "name": "source_probe_polarization",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -319,7 +223,7 @@
       "name": "source_probe_bunch",
       "dtypeStr": "i",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -327,7 +231,7 @@
       "name": "source_temporal_resolution",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "fs"
     },
     {
@@ -335,7 +239,7 @@
       "name": "detector_extractor_voltage",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "V"
     },
     {
@@ -343,7 +247,7 @@
       "name": "detector_work_distance",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "mm"
     },
     {
@@ -352,14 +256,14 @@
       "dtypeStr": "i",
       "kindStr": "type_dimension",
       "shape": [],
-      "superNames": ["section_experiment"]
+      "superNames": ["section_method"]
     },
     {
       "description": "Set of names for the electron-optic lenses.",
       "name": "detector_lens_names",
       "dtypeStr": "C",
       "shape": ["number_of_lenses"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -367,7 +271,7 @@
       "name": "detector_lens_voltages",
       "dtypeStr": "f",
       "shape": ["number_of_lenses"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "V"
     },
     {
@@ -375,7 +279,7 @@
       "name": "detector_tof_distance",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "m"
     },
     {
@@ -384,14 +288,14 @@
       "dtypeStr": "i",
       "kindStr": "type_dimension",
       "shape": [],
-      "superNames": ["section_experiment"]
+      "superNames": ["section_method"]
     },
     {
       "description": "Voltage applied to the time-of-flight tube.",
       "name": "detector_tof_voltages",
       "dtypeStr": "f",
       "shape": ["number_of_tof_voltages"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "V"
     },
     {
@@ -399,7 +303,7 @@
       "name": "detector_sample_bias",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "V"
     },
     {
@@ -407,7 +311,7 @@
       "name": "detector_magnification",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -416,14 +320,14 @@
       "dtypeStr": "i",
       "kindStr": "type_dimension",
       "shape": [],
-      "superNames": ["section_experiment"]
+      "superNames": ["section_method"]
     },
     {
       "description": "Voltage applied to detector.",
       "name": "detector_voltages",
       "dtypeStr": "f",
       "shape": ["number_of_detector_voltages"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "V"
     },
     {
@@ -431,7 +335,7 @@
       "name": "detector_type",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -440,14 +344,14 @@
       "dtypeStr": "i",
       "kindStr": "type_dimension",
       "shape": [],
-      "superNames": ["section_experiment"]
+      "superNames": ["section_method"]
     },
     {
       "description": "Size of each of the imaging sensor chip on the detector.",
       "name": "detector_sensor_size",
       "dtypeStr": "f",
       "shape": ["number_of_sensor_sizes"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "mm"
     },
     {
@@ -455,7 +359,7 @@
       "name": "detector_sensor_count",
       "dtypeStr": "i",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -463,7 +367,7 @@
       "name": "detector_sensor_pixel_size",
       "dtypeStr": "f",
       "shape": ["none_shape"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "um"
     },
     {
@@ -472,14 +376,14 @@
       "dtypeStr": "i",
       "kindStr": "type_dimension",
       "shape": [],
-      "superNames": ["section_experiment"]
+      "superNames": ["section_method"]
     },
     {
       "description": "Pixel x axis to kx momentum calibration.",
       "name": "detector_calibration_x_to_momentum",
       "dtypeStr": "f",
       "shape": ["number_of_momentum_calibration_coefficients"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "AA**-1"
     },
     {
@@ -487,7 +391,7 @@
       "name": "detector_calibration_y_to_momentum",
       "dtypeStr": "f",
       "shape": ["number_of_momentum_calibration_coefficients"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "AA**-1"
     },
     {
@@ -496,14 +400,14 @@
       "dtypeStr": "i",
       "kindStr": "type_dimension",
       "shape": [],
-      "superNames": ["section_experiment"]
+      "superNames": ["section_method"]
     },
     {
       "description": "Time-of-flight to energy calibration.",
       "name": "detector_calibration_tof_to_energy",
       "dtypeStr": "f",
       "shape": ["number_of_energy_calibration_coefficients"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "eV"
     },
     {
@@ -511,7 +415,7 @@
       "name": "detector_calibration_stage_to_delay",
       "dtypeStr": "f",
       "shape": ["number_of_delay_calibration_coefficients"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "fs"
     },
     {
@@ -520,14 +424,14 @@
       "dtypeStr": "i",
       "kindStr": "type_dimension",
       "shape": [],
-      "superNames": ["section_experiment"]
+      "superNames": ["section_method"]
     },
     {
       "description": "Conversion factor between other measured and physical axes.",
       "name": "detector_calibration_other_converts",
       "dtypeStr": "f",
       "shape": ["number_of_other_calibration_coefficients"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": ""
     },
     {
@@ -535,7 +439,7 @@
       "name": "detector_momentum_resolution",
       "dtypeStr": "f",
       "shape": ["none_shape"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "AA**-1"
     },
     {
@@ -543,7 +447,7 @@
       "name": "detector_spatial_resolution",
       "dtypeStr": "f",
       "shape": ["none_shape"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "um"
     },
     {
@@ -551,23 +455,15 @@
       "name": "detector_energy_resolution",
       "dtypeStr": "f",
       "shape": ["none_shape"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_method"],
       "units": "eV"
-    },
-    {
-      "description": "Identification number or signatures of the sample used.",
-      "name": "sample_id",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
     },
     {
       "description": "Physical state of the sample.",
       "name": "sample_state_of_matter",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_sample"],
       "units": ""
     },
     {
@@ -575,7 +471,7 @@
       "name": "sample_purity",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_sample"],
       "units": ""
     },
     {
@@ -583,7 +479,7 @@
       "name": "sample_surface_termination",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_sample"],
       "units": ""
     },
     {
@@ -591,7 +487,7 @@
       "name": "sample_layers",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_sample"],
       "units": ""
     },
     {
@@ -599,47 +495,7 @@
       "name": "sample_stacking_order",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
-      "description": "Space group of the sample compound (if crystalline).",
-      "name": "sample_space_group",
-      "dtypeStr": "i",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
-      "description": "Chemical name of the sample.",
-      "name": "sample_chemical_name",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
-      "description": "Chemical formula of the sample.",
-      "name": "sample_chemical_formula",
-      "dtypeStr": "C",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": ""
-    },
-    {
-      "description": "Number of distinct chemical elements in the sample.",
-      "name": "number_of_elements",
-      "dtypeStr": "i",
-      "kindStr": "type_dimension",
-      "shape": [],
-      "superNames": ["section_experiment"]
-    },
-    {
-      "description": "Symbols of the chemical elements contained in the sample.",
-      "name": "sample_atom_labels",
-      "dtypeStr": "C",
-      "shape": ["number_of_elements"],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_sample"],
       "units": ""
     },
     {
@@ -647,23 +503,15 @@
       "name": "sample_chemical_id_cas",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_sample"],
       "units": ""
-    },
-    {
-      "description": "Temperature of the sample at the time of measurement.",
-      "name": "sample_temperature",
-      "dtypeStr": "f",
-      "shape": [],
-      "superNames": ["section_experiment"],
-      "units": "K"
     },
     {
       "description": "Pressure surrounding the sample at the time of measurement.",
       "name": "sample_pressure",
       "dtypeStr": "f",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_sample"],
       "units": "Pa"
     },
     {
@@ -671,7 +519,7 @@
       "name": "sample_growth_method",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_sample"],
       "units": ""
     },
     {
@@ -679,7 +527,7 @@
       "name": "sample_preparation_method",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_sample"],
       "units": ""
     },
     {
@@ -687,7 +535,7 @@
       "name": "sample_vendor",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_sample"],
       "units": ""
     },
     {
@@ -695,7 +543,7 @@
       "name": "sample_substrate_material",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_sample"],
       "units": ""
     },
     {
@@ -703,7 +551,7 @@
       "name": "sample_substrate_state_of_matter",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_sample"],
       "units": ""
     },
     {
@@ -711,7 +559,7 @@
       "name": "sample_substrate_vendor",
       "dtypeStr": "C",
       "shape": [],
-      "superNames": ["section_experiment"],
+      "superNames": ["section_sample"],
       "units": ""
     }
   ]

@@ -59,33 +59,35 @@ class MPESParser(AbstractBaseParser):
         with open(filepath, 'rt') as f:
             data = json.load(f)
             # print(data)
-        
+
         root_gid = backend.openSection('section_experiment')
-        # # Values do not necessarely have to be read from the parsed file.
-        # # The backend will check the type of the given value agains the metadata definition.
-        # backend.addValue('experiment_time', int(datetime.strptime(data.get('date'), '%d.%M.%Y').timestamp()))
-        #
-        # # Read data .
-        # data_gid = backend.openSection('section_data')
-        backend.addValue('data_repository_name', data.get('data_repository_name'))
-        backend.addValue('data_repository_url', data.get('data_repository_url'))
-        # backend.addValue('data_preview_url', 'https://www.physicsforums.com/insights/wp-content/uploads/2015/09/fem.jpg')
-        # backend.closeSection('section_data', data_gid)
+        method_gid = backend.openSection('section_method')
 
         # Read general experimental parameters
-        # general_gid = backend.openSection('section_experiment_general_parameters')
-        backend.addValue('general_experiment_method', data.get('experiment_method'))
-        backend.addValue('general_experiment_method_abbreviation', data.get('experiment_method_abbrv'))
-        backend.addArrayValues('general_experiment_location', np.array(re.findall(r"[\w']+", data.get('experiment_location'))))
-        backend.addValue('general_experiment_date', data.get('experiment_date'))
-        backend.addValue('general_experiment_summary', data.get('experiment_summary'))
-        backend.addValue('general_experiment_facility_institution', data.get('facility_institution'))
-        backend.addValue('general_experiment_facility_name', data.get('facility_name'))
+        backend.addValue('experiment_location', ', '.join(reversed(re.findall(r"[\w']+", data.get('experiment_location')))))
+        start, end = data.get('experiment_date').split(' ')
+        backend.addValue('experiment_time', int(datetime.strptime(start, '%m.%Y').timestamp()))
+        backend.addValue('experiment_end_time', int(datetime.strptime(end, '%m.%Y').timestamp()))
+        backend.addValue('experiment_summary', data.get('experiment_summary'))
+        backend.addValue('experiment_facility_institution', data.get('facility_institution'))
+        backend.addValue('experiment_facility_name', data.get('facility_name'))
+
+        # Read data parameters
+        data_gid = backend.openSection('section_data')
+        backend.addValue('data_repository_name', data.get('data_repository_name'))
+        backend.addValue('data_repository_url', data.get('data_repository_url'))
+        backend.addValue('data_preview_url', 'preview.png')
+        backend.closeSection('section_data', data_gid)
+
+        # Read method parameters
+        backend.addValue('experiment_method_name', data.get('experiment_method'))
+        backend.addValue('experiment_method_abbreviation', data.get('experiment_method_abbrv'))
+        backend.addValue('equipment_description', data.get('equipment_description'))
+        backend.addValue('probing_method', 'laser pulses')
+
         backend.addValue('general_beamline', data.get('beamline'))
         backend.addValue('general_source_pump', data.get('source_pump'))
         backend.addValue('general_source_probe', data.get('source_probe'))
-        backend.addValue('general_equipment_description', data.get('equipment_description'))
-        backend.addValue('general_sample_description', data.get('sample_description'))
         backend.addArrayValues('general_measurement_axis', np.array(re.findall(r"[\w']+", data.get('measurement_axis'))))
         backend.addArrayValues('general_physical_axis', np.array(re.findall(r"[\w']+", data.get('physical_axis'))))
 
@@ -135,8 +137,11 @@ class MPESParser(AbstractBaseParser):
         backend.addArrayValues('detector_spatial_resolution', np.array(data.get('spatial_resolution')))
         backend.addArrayValues('detector_energy_resolution', np.array(data.get('energy_resolution')))
 
+        backend.closeSection('section_method', method_gid)
+
         # Read parameters related to sample
-        # sample_gid = backend.openSection('section_experiment_sample_parameters')
+        sample_gid = backend.openSection('section_sample')
+        backend.addValue('sample_description', data.get('sample_description'))
         backend.addValue('sample_id', data.get('sample_id'))
         backend.addValue('sample_state_of_matter', data.get('sample_state'))
         backend.addValue('sample_purity', data.get('sample_purity'))
@@ -159,10 +164,16 @@ class MPESParser(AbstractBaseParser):
         backend.addValue('sample_substrate_state_of_matter', data.get('substrate_state'))
         backend.addValue('sample_substrate_vendor', data.get('substrate_vendor'))
 
+        # TODO sample classification
+        backend.addValue('sample_microstructure', 'bulk sample, polycrystalline')
+        backend.addValue('sample_constituents', 'multi phase')
+
+        backend.closeSection('section_sample', sample_gid)
+
         # Close sections in the reverse order
         # backend.closeSection('section_data', data_gid)
-        backend.closeSection('section_experiment', root_gid)
         # backend.closeSection('section_experiment_general_parameters', general_gid)
         # backend.closeSection('section_experiment_source_parameters', source_gid)
         # backend.closeSection('section_experiment_detector_parameters', detector_gid)
         # backend.closeSection('section_experiment_sample_parameters', sample_gid)
+        backend.closeSection('section_experiment', root_gid)
