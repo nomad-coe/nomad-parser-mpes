@@ -384,7 +384,7 @@
       "dtypeStr": "f",
       "shape": ["number_of_momentum_calibration_coefficients"],
       "superNames": ["section_method"],
-      "units": "AA**-1"
+      "units": "angstrom**-1"
     },
     {
       "description": "Pixel y axis to ky momentum calibration.",
@@ -392,7 +392,7 @@
       "dtypeStr": "f",
       "shape": ["number_of_momentum_calibration_coefficients"],
       "superNames": ["section_method"],
-      "units": "AA**-1"
+      "units": "angstrom**-1"
     },
     {
       "description": "Number of the energy calibration parameters for the detector.",
@@ -440,7 +440,7 @@
       "dtypeStr": "f",
       "shape": ["none_shape"],
       "superNames": ["section_method"],
-      "units": "AA**-1"
+      "units": "angstrom**-1"
     },
     {
       "description": "Spatial resolution of the source.",
