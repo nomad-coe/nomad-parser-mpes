@@ -19,16 +19,14 @@ import re
 import numpy as np
 from datetime import datetime
 
-from .metainfo import m_env
-from .metainfo import mpes as mmpes
-from nomad.parsing.parser import MatchingParser
-from nomad.datamodel.metainfo.general_experimental import section_experiment as msection_experiment
-from nomad.datamodel.metainfo.general_experimental import section_data as msection_data
-from nomad.datamodel.metainfo.general_experimental_method import section_method as msection_method
-from nomad.datamodel.metainfo.general_experimental_sample import section_sample as msection_sample
+from nomad.parsing.parser import FairdiParser
+from nomad.datamodel.metainfo.general_experimental import section_experiment as SectionExperiment
+from nomad.datamodel.metainfo.general_experimental import section_data as SectionData
+from nomad.datamodel.metainfo.general_experimental_method import section_method as SectionMethod
+from nomad.datamodel.metainfo.general_experimental_sample import section_sample as SectionSample
 
 
-class MPESParser(MatchingParser):
+class MPESParser(FairdiParser):
     def __init__(self):
         super().__init__(
             name='parsers/mpes', code_name='mpes', code_homepage='https://github.com/mpes-kit/mpes',
@@ -36,13 +34,11 @@ class MPESParser(MatchingParser):
             mainfile_contents_re=(r'"data_repository_name": "zenodo.org"')
         )
 
-    def run(self, filepath, logger=None):
-        self._metainfo_env = m_env
-
+    def parse(self, filepath, archive, logger=None):
         with open(filepath, 'rt') as f:
             data = json.load(f)
 
-        section_experiment = msection_experiment()
+        section_experiment = archive.m_create(SectionExperiment)
 
         # Read general experimental parameters
         # section_experiment.experiment_location = ', '.join(reversed(re.findall(r"[\w']+", data.get('experiment_location'))))
@@ -61,13 +57,13 @@ class MPESParser(MatchingParser):
         section_experiment.experiment_facility_name = data.get('facility_name')
 
         # Read data parameters
-        section_data = section_experiment.m_create(msection_data)
+        section_data = section_experiment.m_create(SectionData)
         section_data.data_repository_name = data.get('data_repository_name')
         section_data.data_repository_url = data.get('data_repository_url')
         section_data.data_preview_url = 'preview.png'
 
         # Read method parameters
-        section_method = section_experiment.m_create(msection_method)
+        section_method = section_experiment.m_create(SectionMethod)
         section_method.experiment_method_name = data.get('experiment_method')
         section_method.experiment_method_abbreviation = data.get('experiment_method_abbrv')
         section_method.equipment_description = data.get('equipment_description')
@@ -125,7 +121,7 @@ class MPESParser(MatchingParser):
         section_method.detector_energy_resolution = np.array(data.get('energy_resolution'))
 
         # Read parameters related to sample
-        section_sample = section_experiment.m_create(msection_sample)
+        section_sample = section_experiment.m_create(SectionSample)
         section_sample.sample_description = data.get('sample_description')
         section_sample.sample_id = data.get('sample_id')
         section_sample.sample_state_of_matter = data.get('sample_state')
@@ -152,5 +148,3 @@ class MPESParser(MatchingParser):
         # TODO sample classification
         section_sample.sample_microstructure = 'bulk sample, polycrystalline'
         section_sample.sample_constituents = 'multi phase'
-
-        return section_experiment
