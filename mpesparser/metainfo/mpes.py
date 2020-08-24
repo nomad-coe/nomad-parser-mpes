@@ -7,8 +7,7 @@ from nomad.metainfo import (  # pylint: disable=unused-import
 from nomad.metainfo.legacy import LegacyDefinition
 
 from nomad.datamodel.metainfo import general_experimental
-from nomad.datamodel.metainfo import general_experimental_method
-from nomad.datamodel.metainfo import general_experimental_sample
+
 
 m_package = Package(
     name='mpes_nomadmetainfo_json',
@@ -37,7 +36,7 @@ class section_experiment(general_experimental.section_experiment):
         a_legacy=LegacyDefinition(name='number_of_location_names'))
 
 
-class section_method(general_experimental_method.section_method):
+class section_method(general_experimental.section_method):
 
     m_def = Section(validate=False, extends_base_section=True, a_legacy=LegacyDefinition(name='section_method'))
 
@@ -521,7 +520,7 @@ class section_method(general_experimental_method.section_method):
         a_legacy=LegacyDefinition(name='detector_energy_resolution'))
 
 
-class section_sample(general_experimental_sample.section_sample):
+class section_sample(general_experimental.section_sample):
 
     m_def = Section(validate=False, extends_base_section=True, a_legacy=LegacyDefinition(name='section_sample'))
 
