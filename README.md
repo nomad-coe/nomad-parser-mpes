@@ -13,8 +13,17 @@ in the same directory as files that also belong to that entry. Parsers
 might also read information from these auxillary files. This way you can add more files
 to an entry, even if the respective parser/code might not directly support it.
 
+<<<<<<< HEAD
 For mpes please provide at least the files from this table if applicable to your
 calculations (remember that you can provide more files if you want):
+=======
+## Description of files
+The set of important files for the parser are explained in the following,
+- [mpesparser](mpesparser): Main folder of the parser.
+- [mpesparser/__init__.py](mpesparser/__init__.py): Parser module initialization code.
+- [mpesparser/__main__.py](mpesparser/__main__.py): Parser module run file.
+- [mpesparser/metainfo/mpes](mpesparser/metainfo/mpes.py): MPES metadata definitions.
+>>>>>>> aa7fbc09aa3bde6b654b764d21cd62eaf2badc9e
 
 
 
@@ -42,6 +51,7 @@ interface (CLI) and print the processing results output to stdout:
 ```
 nomad parse --show-archive <path-to-file>
 ```
+<<<<<<< HEAD
 
 To parse a file in Python, you can program something like this:
 ```python
@@ -66,6 +76,10 @@ Also install NOMAD's pypi package:
 
 ```
 pip install nomad-lab
+=======
+cd nomad/dependencies/parsers/parser-mpes
+python -m parser-mpes tests/mpes.meta
+>>>>>>> aa7fbc09aa3bde6b654b764d21cd62eaf2badc9e
 ```
 
 Clone the parser project and install it in development mode:

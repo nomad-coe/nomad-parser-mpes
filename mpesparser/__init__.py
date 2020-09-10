@@ -1,4 +1,4 @@
-# Copyright 2016-2018 Markus Scheidgen
+# Copyright 2016-2020 R. Patrick Xian, Markus Scheidgen
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
 #   You may obtain a copy of the License at
@@ -19,150 +19,138 @@ import re
 import numpy as np
 from datetime import datetime
 
-from nomadcore.simple_parser import SimpleMatcher
-from nomadcore.baseclasses import ParserInterface, AbstractBaseParser
-
-from nomad.parsing import LocalBackend
-
-
-class MPESParserInterface(ParserInterface):
-    def get_metainfo_filename(self):
-        """
-        The parser specific metainfo. To include other metadata definitions, use
-        the 'dependencies' key to refer to other local nomadmetainfo.json files or
-        to nomadmetainfo.json files that are part of the general nomad-meta-info
-        submodule (i.e. ``dependencies/nomad-meta-info``).
-         """
-        return os.path.join(os.path.dirname(__file__), 'mpes.nomadmetainfo.json')
-
-    def get_parser_info(self):
-        """ Basic info about parser used in archive data and logs. """
-        return {
-            'name': 'mpes-parser',
-            'version': '1.0.0'
-        }
-
-    def setup_version(self):
-        """ Can be used to call :func:`setup_main_parser` differently for different code versions. """
-        self.setup_main_parser(None)
-
-    def setup_main_parser(self, _):
-        """ Setup the actual parser (behind this interface) """
-        self.main_parser = MPESParser(self.parser_context)
+from nomad.parsing.parser import FairdiParser
+from nomad.datamodel.metainfo.common_experimental import (
+    Experiment, Data, Method, Sample, Material, Location)
 
 
-class MPESParser(AbstractBaseParser):
+class MPESParser(FairdiParser):
+    def __init__(self):
+        super().__init__(
+            name='parsers/mpes', code_name='mpes', code_homepage='https://github.com/mpes-kit/mpes',
+            domain='ems', mainfile_mime_re=r'(application/json)|(text/.*)', mainfile_name_re=(r'.*.meta'),
+            mainfile_contents_re=(r'"data_repository_name": "zenodo.org"')
+        )
 
-    def parse(self, filepath):
-        backend = self.parser_context.super_backend
-
+    def parse(self, filepath, archive, logger=None):
         with open(filepath, 'rt') as f:
             data = json.load(f)
-            # print(data)
-        
-        root_gid = backend.openSection('section_experiment')
-        # # Values do not necessarely have to be read from the parsed file.
-        # # The backend will check the type of the given value agains the metadata definition.
-        # backend.addValue('experiment_time', int(datetime.strptime(data.get('date'), '%d.%M.%Y').timestamp()))
-        #
-        # # Read data .
-        # data_gid = backend.openSection('section_data')
-        backend.addValue('data_repository_name', data.get('data_repository_name'))
-        backend.addValue('data_repository_url', data.get('data_repository_url'))
-        # backend.addValue('data_preview_url', 'https://www.physicsforums.com/insights/wp-content/uploads/2015/09/fem.jpg')
-        # backend.closeSection('section_data', data_gid)
+
+        experiment = archive.m_create(Experiment)
+        experiment.raw_metadata = data
 
         # Read general experimental parameters
-        # general_gid = backend.openSection('section_experiment_general_parameters')
-        backend.addValue('general_experiment_method', data.get('experiment_method'))
-        backend.addValue('general_experiment_method_abbreviation', data.get('experiment_method_abbrv'))
-        backend.addArrayValues('general_experiment_location', np.array(re.findall(r"[\w']+", data.get('experiment_location'))))
-        backend.addValue('general_experiment_date', data.get('experiment_date'))
-        backend.addValue('general_experiment_summary', data.get('experiment_summary'))
-        backend.addValue('general_experiment_facility_institution', data.get('facility_institution'))
-        backend.addValue('general_experiment_facility_name', data.get('facility_name'))
-        backend.addValue('general_beamline', data.get('beamline'))
-        backend.addValue('general_source_pump', data.get('source_pump'))
-        backend.addValue('general_source_probe', data.get('source_probe'))
-        backend.addValue('general_equipment_description', data.get('equipment_description'))
-        backend.addValue('general_sample_description', data.get('sample_description'))
-        backend.addArrayValues('general_measurement_axis', np.array(re.findall(r"[\w']+", data.get('measurement_axis'))))
-        backend.addArrayValues('general_physical_axis', np.array(re.findall(r"[\w']+", data.get('physical_axis'))))
+        # experiment.experiment_location = ', '.join(reversed(re.findall(r"[\w']+", data.get('experiment_location'))))
+        location = experiment.m_create(Location)
+        location.address = data.get('experiment_location')
+        location.institution = data.get('facility_institution')
+        location.facility = data.get('facility')
+
+        dates = data.get('experiment_date')
+        if dates:
+            start, end = dates.split(' ')
+            try:
+                experiment.experiment_time = datetime.strptime(start, '%m.%Y')
+            except ValueError:
+                pass
+            try:
+                experiment.experiment_end_time = datetime.strptime(end, '%m.%Y')
+            except ValueError:
+                pass
+        experiment.experiment_summary = data.get('experiment_summary')
+
+        # Read data parameters
+        section_data = experiment.m_create(Data)
+        section_data.repository_name = data.get('data_repository_name')
+        section_data.entry_repository_url = data.get('data_repository_url')
+        section_data.repository_url = '/'.join(data.get('data_repository_url').split('/')[0:3])
+        section_data.preview_url = 'preview.png'
+
+        # Read method parameters
+        method = experiment.m_create(Method)
+        method.data_type = 'multidimensional spectrum'
+        method.method_name = data.get('experiment_method')
+        method.method_abbreviation = data.get('experiment_method_abbrv')
+        method.instrument_description = data.get('equipment_description')
+        method.probing_method = 'laser pulses'
+        method.general_beamline = data.get('beamline')
+        method.general_source_pump = data.get('source_pump')
+        method.general_source_probe = data.get('source_probe')
+        method.general_measurement_axis = np.array(re.findall(r"[\w']+", data.get('measurement_axis')))
+        method.general_physical_axis = np.array(re.findall(r"[\w']+", data.get('physical_axis')))
 
         # Read parameters related to experimental source
-        # source_gid = backend.openSection('section_experiment_source_parameters')
-        backend.addValue('source_pump_repetition_rate', data.get('pump_rep_rate'))
-        backend.addValue('source_pump_pulse_duration', data.get('pump_pulse_duration'))
-        backend.addValue('source_pump_wavelength', data.get('pump_wavelength'))
-        backend.addArrayValues('source_pump_spectrum', np.array(data.get('pump_spectrum')))
-        backend.addValue('source_pump_photon_energy', data.get('pump_photon_energy'))
-        backend.addArrayValues('source_pump_size', np.array(data.get('pump_size')))
-        backend.addArrayValues('source_pump_fluence', np.array(data.get('pump_fluence')))
-        backend.addValue('source_pump_polarization', data.get('pump_polarization'))
-        backend.addValue('source_pump_bunch', data.get('pump_bunch'))
-        backend.addValue('source_probe_repetition_rate', data.get('probe_rep_rate'))
-        backend.addValue('source_probe_pulse_duration', data.get('probe_pulse_duration'))
-        backend.addValue('source_probe_wavelength', data.get('probe_wavelength'))
-        backend.addArrayValues('source_probe_spectrum', np.array(data.get('probe_spectrum')))
-        backend.addValue('source_probe_photon_energy', data.get('probe_photon_energy'))
-        backend.addArrayValues('source_probe_size', np.array(data.get('probe_size')))
-        backend.addArrayValues('source_probe_fluence', np.array(data.get('probe_fluence')))
-        backend.addValue('source_probe_polarization', data.get('probe_polarization'))
-        backend.addValue('source_probe_bunch', data.get('probe_bunch'))
-        backend.addValue('source_temporal_resolution', data.get('temporal_resolution'))
+        # source_gid = backend.openSection('experiment_source_parameters')
+        method.source_pump_repetition_rate = data.get('pump_rep_rate')
+        method.source_pump_pulse_duration = data.get('pump_pulse_duration')
+        method.source_pump_wavelength = data.get('pump_wavelength')
+        method.source_pump_spectrum = np.array(data.get('pump_spectrum'))
+        method.source_pump_photon_energy = data.get('pump_photon_energy')
+        method.source_pump_size = np.array(data.get('pump_size'))
+        method.source_pump_fluence = np.array(data.get('pump_fluence'))
+        method.source_pump_polarization = data.get('pump_polarization')
+        method.source_pump_bunch = data.get('pump_bunch')
+        method.source_probe_repetition_rate = data.get('probe_rep_rate')
+        method.source_probe_pulse_duration = data.get('probe_pulse_duration')
+        method.source_probe_wavelength = data.get('probe_wavelength')
+        method.source_probe_spectrum = np.array(data.get('probe_spectrum'))
+        method.source_probe_photon_energy = data.get('probe_photon_energy')
+        method.source_probe_size = np.array(data.get('probe_size'))
+        method.source_probe_fluence = np.array(data.get('probe_fluence'))
+        method.source_probe_polarization = data.get('probe_polarization')
+        method.source_probe_bunch = data.get('probe_bunch')
+        method.source_temporal_resolution = data.get('temporal_resolution')
 
         # Read parameters related to detector
-        # detector_gid = backend.openSection('section_experiment_detector_parameters')
-        backend.addValue('detector_extractor_voltage', data.get('extractor_voltage'))
-        backend.addValue('detector_work_distance', data.get('work_distance'))
-        backend.addArrayValues('detector_lens_names', np.array(re.findall(r"[\w']+", data.get('lens_names'))))
-        backend.addArrayValues('detector_lens_voltages', np.array(data.get('lens_voltages')))
-        backend.addValue('detector_tof_distance', data.get('tof_distance'))
-        backend.addArrayValues('detector_tof_voltages', np.array(data.get('tof_voltages')))
-        backend.addValue('detector_sample_bias', data.get('sample_bias'))
-        backend.addValue('detector_magnification', data.get('magnification'))
-        backend.addArrayValues('detector_voltages', np.array(data.get('detector_voltages')))
-        backend.addValue('detector_type', data.get('detector_type'))
-        backend.addArrayValues('detector_sensor_size', np.array(data.get('sensor_size')))
-        backend.addValue('detector_sensor_count', data.get('sensor_count'))
-        backend.addArrayValues('detector_sensor_pixel_size', np.array(data.get('sensor_pixel_size')))
-        backend.addArrayValues('detector_calibration_x_to_momentum', np.array(data.get('calibration_x_to_momentum')))
-        backend.addArrayValues('detector_calibration_y_to_momentum', np.array(data.get('calibration_y_to_momentum')))
-        backend.addArrayValues('detector_calibration_tof_to_energy', np.array(data.get('calibration_tof_to_energy')))
-        backend.addArrayValues('detector_calibration_stage_to_delay', np.array(data.get('calibration_stage_to_delay')))
-        backend.addArrayValues('detector_calibration_other_converts', np.array(data.get('calibration_other_converts')))
-        backend.addArrayValues('detector_momentum_resolution', np.array(data.get('momentum_resolution')))
-        backend.addArrayValues('detector_spatial_resolution', np.array(data.get('spatial_resolution')))
-        backend.addArrayValues('detector_energy_resolution', np.array(data.get('energy_resolution')))
+        # detector_gid = backend.openSection('experiment_detector_parameters')
+        method.detector_extractor_voltage = data.get('extractor_voltage')
+        method.detector_work_distance = data.get('work_distance')
+        method.detector_lens_names = np.array(re.findall(r"[\w']+", data.get('lens_names')))
+        method.detector_lens_voltages = np.array(data.get('lens_voltages'))
+        method.detector_tof_distance = data.get('tof_distance')
+        method.detector_tof_voltages = np.array(data.get('tof_voltages'))
+        method.detector_sample_bias = data.get('sample_bias')
+        method.detector_magnification = data.get('magnification')
+        method.detector_voltages = np.array(data.get('detector_voltages'))
+        method.detector_type = data.get('detector_type')
+        method.detector_sensor_size = np.array(data.get('sensor_size'))
+        method.detector_sensor_count = data.get('sensor_count')
+        method.detector_sensor_pixel_size = np.array(data.get('sensor_pixel_size'))
+        method.detector_calibration_x_to_momentum = np.array(data.get('calibration_x_to_momentum'))
+        method.detector_calibration_y_to_momentum = np.array(data.get('calibration_y_to_momentum'))
+        method.detector_calibration_tof_to_energy = np.array(data.get('calibration_tof_to_energy'))
+        method.detector_calibration_stage_to_delay = np.array(data.get('calibration_stage_to_delay'))
+        method.detector_calibration_other_converts = np.array(data.get('calibration_other_converts'))
+        method.detector_momentum_resolution = np.array(data.get('momentum_resolution'))
+        method.detector_spatial_resolution = np.array(data.get('spatial_resolution'))
+        method.detector_energy_resolution = np.array(data.get('energy_resolution'))
 
         # Read parameters related to sample
-        # sample_gid = backend.openSection('section_experiment_sample_parameters')
-        backend.addValue('sample_id', data.get('sample_id'))
-        backend.addValue('sample_state_of_matter', data.get('sample_state'))
-        backend.addValue('sample_purity', data.get('sample_purity'))
-        backend.addValue('sample_surface_termination', data.get('sample_surface_termination'))
-        backend.addValue('sample_layers', data.get('sample_layers'))
-        backend.addValue('sample_stacking_order', data.get('sample_stacking_order'))
-        backend.addValue('sample_space_group', data.get('sample_space_group'))
-        backend.addValue('sample_chemical_name', data.get('chemical_name'))
-        backend.addValue('sample_chemical_formula', data.get('chemical_formula'))
-        # backend.addArrayValues('sample_chemical_elements', np.array(re.findall(r"[\w']+", data.get('chemical_elements'))))
-        atoms = set(ase.Atoms(data.get('chemical_formula')).get_chemical_symbols())
-        backend.addArrayValues('sample_atom_labels', np.array(list(atoms)))
-        backend.addValue('sample_chemical_id_cas', data.get('chemical_id_cas'))
-        backend.addValue('sample_temperature', data.get('sample_temperature'))
-        backend.addValue('sample_pressure', data.get('sample_pressure'))
-        backend.addValue('sample_growth_method', data.get('growth_method'))
-        backend.addValue('sample_preparation_method', data.get('preparation_method'))
-        backend.addValue('sample_vendor', data.get('sample_vendor'))
-        backend.addValue('sample_substrate_material', data.get('substrate_material'))
-        backend.addValue('sample_substrate_state_of_matter', data.get('substrate_state'))
-        backend.addValue('sample_substrate_vendor', data.get('substrate_vendor'))
+        sample = experiment.m_create(Sample)
+        sample.sample_description = data.get('sample_description')
+        sample.sample_id = data.get('sample_id')
+        sample.sample_state_of_matter = data.get('sample_state')
+        sample.sample_purity = data.get('sample_purity')
+        sample.sample_surface_termination = data.get('sample_surface_termination')
+        sample.sample_layers = data.get('sample_layers')
+        sample.sample_stacking_order = data.get('sample_stacking_order')
+        sample.sample_chemical_id_cas = data.get('chemical_id_cas')
+        sample.sample_temperature = data.get('sample_temperature')
+        sample.sample_pressure = data.get('sample_pressure')
+        sample.sample_growth_method = data.get('growth_method')
+        sample.sample_preparation_method = data.get('preparation_method')
+        sample.sample_vendor = data.get('sample_vendor')
+        sample.sample_substrate_material = data.get('substrate_material')
+        sample.sample_substrate_state_of_matter = data.get('substrate_state')
+        sample.sample_substrate_vendor = data.get('substrate_vendor')
 
-        # Close sections in the reverse order
-        # backend.closeSection('section_data', data_gid)
-        backend.closeSection('section_experiment', root_gid)
-        # backend.closeSection('section_experiment_general_parameters', general_gid)
-        # backend.closeSection('section_experiment_source_parameters', source_gid)
-        # backend.closeSection('section_experiment_detector_parameters', detector_gid)
-        # backend.closeSection('section_experiment_sample_parameters', sample_gid)
+        material = sample.m_create(Material)
+        material.space_group = data.get('sample_space_group')
+        material.chemical_name = data.get('chemical_name')
+        material.chemical_formula = data.get('chemical_formula')
+        atoms = set(ase.Atoms(data.get('chemical_formula')).get_chemical_symbols())
+        material.atom_labels = np.array(list(atoms))
+
+        # TODO sample classification
+        sample.sample_microstructure = 'bulk sample, polycrystalline'
+        sample.sample_constituents = 'multi phase'
