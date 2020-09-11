@@ -1,8 +1,0 @@
-code-label: MPES
-code-label-style: All in capitals
-code-url: https://mpes-kit.github.io/mpes
-parser-dir-name: dependencies/parsers/mpes/
-parser-git-url: https://gitlab.mpcdf.mpg.de/nomad-lab/parser-mpes
-parser-specific: |
-  MPES (Multidimensional photoemission spectroscopy) is a parser for experimental data.
-table-of-files: ''
