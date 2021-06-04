@@ -31,9 +31,7 @@ def main():
         package_data={
             'mpesparser': ['*.json']
         },
-        install_requires=[
-            'nomadcore'
-        ],
+        install_requires=[],
     )
 
 
